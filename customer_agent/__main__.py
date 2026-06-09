@@ -92,6 +92,54 @@ async def main() -> None:
     )
     app = app_builder.build()
 
+    # --- CORS + REST endpoint cho demo.html (đo latency thật từ trình duyệt) ---
+    import time as _time
+    from uuid import uuid4
+
+    from fastapi.middleware.cors import CORSMiddleware
+    from starlette.responses import JSONResponse as _JSON
+
+    from customer_agent.graph import build_graph
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    async def ask_endpoint(request):
+        """REST (Starlette route) cho browser: nhận {question}, chạy graph thật, trả latency."""
+        try:
+            data = await request.json()
+        except Exception:
+            data = {}
+        question = (data.get("question") or "").strip()
+        if not question:
+            return _JSON({"error": "missing question"}, status_code=400)
+
+        trace_id = str(uuid4())
+        context_id = str(uuid4())
+        graph = build_graph(trace_id=trace_id, context_id=context_id, depth=0)
+
+        start = _time.perf_counter()
+        result = await graph.ainvoke(
+            {"messages": [{"role": "user", "content": question}]}
+        )
+        elapsed_ms = (_time.perf_counter() - start) * 1000
+
+        answer = ""
+        msgs = result.get("messages", [])
+        if msgs:
+            answer = getattr(msgs[-1], "content", "") or ""
+        logger.info("/ask | trace=%s latency=%.0fms", trace_id, elapsed_ms)
+        return _JSON(
+            {"answer": answer, "latency_ms": round(elapsed_ms), "trace_id": trace_id}
+        )
+
+    # Đăng ký route kiểu Starlette để tránh dependency-injection của FastAPI
+    app.add_route("/ask", ask_endpoint, methods=["POST"])
+
     config = uvicorn.Config(app, host="0.0.0.0", port=PORT, log_level="info")
     server = uvicorn.Server(config)
     logger.info("Customer Agent listening on port %d", PORT)

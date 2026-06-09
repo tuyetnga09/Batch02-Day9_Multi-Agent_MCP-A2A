@@ -68,50 +68,36 @@ async def analyze_law(state: LawState) -> dict:
     return {"law_analysis": result.content}
 
 
+# Từ khóa định tuyến — tối ưu latency: thay LLM routing bằng keyword matching,
+# bỏ hẳn 1 LLM call nối tiếp khỏi critical path.
+_TAX_KEYWORDS = (
+    "tax", "irs", "evasion", "penalt", "fbar", "fatca", "deduction",
+    "audit", "revenue", "thuế",
+)
+_COMPLIANCE_KEYWORDS = (
+    "complian", "regulat", "sec", "sox", "sarbanes", "fcpa", "aml",
+    "gdpr", "securities", "sanction", "antitrust", "tuân thủ",
+)
+
+
 async def check_routing(state: LawState) -> dict:
     """Determine whether tax and/or compliance sub-agents are needed.
 
-    Returns updated state flags so the routing function can read them.
-    If delegation depth is already at the max, skip further delegation.
+    Tối ưu: dùng keyword matching (không gọi LLM) → tức thời, không thêm
+    độ trễ vào critical path. Vẫn tôn trọng MAX_DELEGATION_DEPTH.
     """
     depth = state.get("delegation_depth", 0)
     if depth >= MAX_DELEGATION_DEPTH:
         logger.info("Max delegation depth reached (%d); skipping sub-agents", depth)
         return {"needs_tax": False, "needs_compliance": False}
 
-    llm = get_llm()
-    messages = [
-        SystemMessage(
-            content=(
-                'You are a legal routing expert. Based on the question, decide whether '
-                'specialist sub-agents are needed.\n'
-                'Reply with ONLY valid JSON — no markdown, no extra text:\n'
-                '{"needs_tax": <true|false>, "needs_compliance": <true|false>}\n\n'
-                'needs_tax = true  → question involves tax law, IRS, tax evasion, penalties\n'
-                'needs_compliance = true → question involves regulatory compliance, SEC, SOX, AML, FCPA'
-            )
-        ),
-        HumanMessage(content=state["question"]),
-    ]
-    result = await llm.ainvoke(messages)
-    raw = result.content.strip()
-
-    # Strip markdown code fences if present
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
-        raw = raw.strip()
-
-    try:
-        parsed = json.loads(raw)
-    except json.JSONDecodeError:
-        logger.warning("Routing LLM returned non-JSON: %r — defaulting to both=True", raw)
-        parsed = {"needs_tax": True, "needs_compliance": True}
-
-    needs_tax = bool(parsed.get("needs_tax", True))
-    needs_compliance = bool(parsed.get("needs_compliance", True))
-    logger.info("Routing decision: needs_tax=%s needs_compliance=%s", needs_tax, needs_compliance)
+    q = state["question"].lower()
+    needs_tax = any(kw in q for kw in _TAX_KEYWORDS)
+    needs_compliance = any(kw in q for kw in _COMPLIANCE_KEYWORDS)
+    logger.info(
+        "Routing decision (keyword): needs_tax=%s needs_compliance=%s",
+        needs_tax, needs_compliance,
+    )
     return {"needs_tax": needs_tax, "needs_compliance": needs_compliance}
 
 
@@ -121,14 +107,13 @@ def route_to_subagents(state: LawState) -> list[Send]:
     This function is used with add_conditional_edges; it returns a list of
     Send objects which LangGraph executes as parallel branches.
     """
-    sends: list[Send] = []
+    # Tối ưu: analyze_law luôn chạy SONG SONG với tax/compliance (output của
+    # nó chỉ dùng ở aggregate), thay vì nối tiếp trước như baseline.
+    sends: list[Send] = [Send("analyze_law", state)]
     if state.get("needs_tax"):
         sends.append(Send("call_tax", state))
     if state.get("needs_compliance"):
         sends.append(Send("call_compliance", state))
-    if not sends:
-        # No sub-agents needed — go straight to aggregation
-        sends.append(Send("aggregate", state))
     return sends
 
 
@@ -218,17 +203,18 @@ def create_graph():
     graph.add_node("call_compliance", call_compliance)
     graph.add_node("aggregate", aggregate)
 
-    graph.set_entry_point("analyze_law")
-    graph.add_edge("analyze_law", "check_routing")
-
-    # Conditional parallel dispatch: after check_routing, route_to_subagents
-    # returns a list of Send objects (to call_tax, call_compliance, or aggregate)
+    # Tối ưu topology: check_routing (keyword, tức thời) là entry point, rồi
+    # fan-out SONG SONG tới analyze_law + call_tax + call_compliance, cùng hội
+    # tụ ở aggregate. Critical path bên law agent giảm từ 4 tầng nối tiếp
+    # (analyze→route→specialists→aggregate) xuống 2 tầng (route→{song song}→aggregate).
+    graph.set_entry_point("check_routing")
     graph.add_conditional_edges(
         "check_routing",
         route_to_subagents,
-        ["call_tax", "call_compliance", "aggregate"],
+        ["analyze_law", "call_tax", "call_compliance"],
     )
 
+    graph.add_edge("analyze_law", "aggregate")
     graph.add_edge("call_tax", "aggregate")
     graph.add_edge("call_compliance", "aggregate")
     graph.add_edge("aggregate", END)

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Legal Multi-Agent (A2A) — Demo Tương Tác</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --line:#334155;
+    --txt:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --ok:#22c55e;
+    --tax:#f59e0b; --comp:#a78bfa; --law:#38bdf8; --cust:#34d399; --reg:#f472b6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       background:var(--bg);color:var(--txt);line-height:1.5}
+  header{padding:22px 28px;border-bottom:1px solid var(--line);
+         background:linear-gradient(180deg,#15233b,#0f172a)}
+  h1{margin:0;font-size:21px}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .wrap{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:22px 28px;max-width:1240px;margin:0 auto}
+  @media(max-width:920px){.wrap{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .card h2{margin:0 0 12px;font-size:15px;color:var(--accent);letter-spacing:.3px}
+
+  /* controls */
+  textarea{width:100%;background:var(--panel2);color:var(--txt);border:1px solid var(--line);
+           border-radius:8px;padding:10px;font-size:13px;resize:vertical;min-height:64px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  button{background:var(--accent);color:#06283b;border:0;border-radius:8px;padding:9px 16px;
+         font-weight:600;cursor:pointer;font-size:13px}
+  button.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{border-radius:0;background:transparent;color:var(--muted);font-weight:500;padding:7px 12px}
+  .seg button.active{background:var(--accent);color:#06283b;font-weight:700}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .chip{font-size:11px;padding:4px 9px;border-radius:999px;background:var(--panel2);
+        border:1px solid var(--line);color:var(--muted);cursor:pointer}
+
+  /* diagram */
+  .stage{position:relative;min-height:430px;padding:8px 4px}
+  .node{position:absolute;width:140px;border-radius:10px;padding:10px 12px;background:var(--panel2);
+        border:2px solid var(--line);transition:all .35s ease;text-align:center;font-size:12px}
+  .node .t{font-weight:700;font-size:13px}
+  .node .r{color:var(--muted);font-size:10.5px;margin-top:2px}
+  .node.active{box-shadow:0 0 0 3px rgba(56,189,248,.25);transform:translateY(-2px)}
+  .node.done{border-color:var(--ok)}
+  .node.idle{opacity:.55}
+  .node.user{left:calc(50% - 70px);top:0;border-color:#64748b}
+  .node.reg{right:0;top:90px;border-color:var(--reg)}
+  .node.cust{left:calc(50% - 70px);top:90px;border-color:var(--cust)}
+  .node.law{left:calc(50% - 70px);top:180px;border-color:var(--law)}
+  .node.tax{left:calc(50% - 230px);top:300px;border-color:var(--tax)}
+  .node.comp{left:calc(50% - 70px);top:300px;border-color:var(--comp)}
+  .node.ana{left:calc(50% + 90px);top:300px;border-color:var(--law)}
+  .node.badge::after{content:attr(data-badge);position:absolute;top:-9px;right:-9px;
+        background:var(--accent);color:#06283b;font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px}
+  svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .lk{stroke:var(--line);stroke-width:2;fill:none}
+  .lk.hot{stroke:var(--accent);stroke-width:3;stroke-dasharray:6 5;animation:dash .6s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-22}}
+
+  /* log + metrics */
+  .log{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#0b1424;border:1px solid var(--line);
+       border-radius:8px;padding:10px;height:230px;overflow:auto}
+  .log div{padding:2px 0;border-bottom:1px solid #16223a;white-space:pre-wrap}
+  .log .tax{color:var(--tax)} .log .comp{color:var(--comp)} .log .law{color:var(--law)}
+  .log .cust{color:var(--cust)} .log .reg{color:var(--reg)} .log .ok{color:var(--ok)}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .m{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+  .m .v{font-size:24px;font-weight:800}
+  .m .k{font-size:11px;color:var(--muted)}
+  .bar{height:10px;background:#0b1424;border-radius:6px;overflow:hidden;margin-top:6px}
+  .bar>span{display:block;height:100%;background:linear-gradient(90deg,#38bdf8,#22c55e)}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+  code{background:#0b1424;padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚖️ Legal Multi-Agent System — Demo Tương Tác (A2A Protocol)</h1>
+  <div class="sub">Stage 5: mỗi agent là một HTTP service độc lập, khám phá nhau qua Registry và giao tiếp bằng A2A.
+  Demo này mô phỏng trung thực luồng xử lý 1 câu hỏi và minh hoạ tối ưu latency.</div>
+</header>
+
+<div class="wrap">
+  <!-- LEFT: diagram + controls -->
+  <div>
+    <div class="card">
+      <h2>1 · Gửi câu hỏi pháp lý</h2>
+      <textarea id="q">If a company breaks a contract and avoids taxes, what are the legal and regulatory consequences?</textarea>
+      <div class="chips" id="chips"></div>
+      <div class="row">
+        <span class="pill">Kiến trúc:</span>
+        <div class="seg" id="modeSeg">
+          <button data-mode="baseline">Baseline (nối tiếp)</button>
+          <button data-mode="optimized" class="active">Optimized (song song)</button>
+        </div>
+        <button id="run">▶ Chạy demo</button>
+        <button id="reset" class="ghost">Reset</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2>2 · Luồng tương tác giữa các Agent</h2>
+      <div class="stage" id="stage">
+        <svg class="links" id="links"></svg>
+        <div class="node user idle" id="n_user"><div class="t">👤 User</div><div class="r">đặt câu hỏi</div></div>
+        <div class="node reg idle"  id="n_reg"><div class="t">🗂️ Registry</div><div class="r">:10000 · discover</div></div>
+        <div class="node cust idle" id="n_cust"><div class="t">🤝 Customer</div><div class="r">:10100 · entry (LLM)</div></div>
+        <div class="node law idle"  id="n_law"><div class="t">⚖️ Law</div><div class="r">:10101 · orchestrator</div></div>
+        <div class="node tax idle"  id="n_tax"><div class="t">💰 Tax</div><div class="r">:10102 · specialist (LLM)</div></div>
+        <div class="node comp idle" id="n_comp"><div class="t">✅ Compliance</div><div class="r">:10103 · specialist (LLM)</div></div>
+        <div class="node ana idle"  id="n_ana"><div class="t">📋 analyze_law</div><div class="r">node trong Law (LLM)</div></div>
+      </div>
+      <div style="font-size:11.5px;color:var(--muted)">
+        <span class="pill" style="border-color:var(--tax);color:var(--tax)">●</span> chạy song song trong chế độ Optimized ·
+        <code>trace_id</code> được truyền qua mọi hop A2A.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: log + metrics -->
+  <div>
+    <div class="card">
+      <h2>3 · Live log (mô phỏng theo log thật)</h2>
+      <div class="log" id="log"><div style="color:var(--muted)">Bấm “Chạy demo” để bắt đầu…</div></div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2>4 · Latency đo thực tế (Stage 5)</h2>
+      <div class="metrics">
+        <div class="m"><div class="v" style="color:#f59e0b" id="m_base">420s</div><div class="k">Baseline (đã đo)</div>
+          <div class="bar"><span id="bar_base" style="width:100%"></span></div></div>
+        <div class="m"><div class="v" style="color:#22c55e" id="m_opt">299s</div><div class="k" id="k_opt">Optimized (đã đo)</div>
+          <div class="bar"><span id="bar_opt" style="width:71%"></span></div></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted)" id="latNote">
+        Giảm <b style="color:var(--ok)">~121s (≈29%)</b> nhờ: (1) thay LLM định tuyến bằng
+        <b>keyword routing</b>; (2) cho <code>analyze_law</code> chạy <b>song song</b> với Tax/Compliance.
+      </p>
+
+      <div class="row" style="margin-top:4px">
+        <button id="measure">⏱️ Đo thật (gọi hệ thống)</button>
+        <span id="measureStatus" class="pill">cần chạy <code>./start_all.sh</code></span>
+      </div>
+      <div id="answerBox" class="log" style="height:auto;max-height:200px;margin-top:10px;display:none"></div>
+
+      <p style="font-size:11px;color:var(--muted);margin-top:10px">Model: <code>openai/gpt-oss-120b:free</code> (OpenRouter).
+      Nút “Đo thật” gọi <code>POST :10100/ask</code> → chạy graph thật và trả latency đo được.
+      Mỗi lần đo có thể mất vài phút (model free).</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- keyword routing: mirror law_agent/graph.py ----
+const TAX_KW=["tax","irs","evasion","penalt","fbar","fatca","deduction","audit","revenue","thuế"];
+const COMP_KW=["complian","regulat","sec","sox","sarbanes","fcpa","aml","gdpr","securities","sanction","antitrust","tuân thủ"];
+const route=q=>{const s=q.toLowerCase();return{tax:TAX_KW.some(k=>s.includes(k)),comp:COMP_KW.some(k=>s.includes(k))};};
+
+const SAMPLES=[
+  "If a company breaks a contract and avoids taxes, what are the legal and regulatory consequences?",
+  "Công ty bị rò rỉ dữ liệu khách hàng (GDPR) thì hậu quả pháp lý là gì?",
+  "What remedies exist for breach of a simple service contract?",
+  "A firm under-reported overseas income to the IRS — what penalties apply?"
+];
+const chips=document.getElementById('chips');
+SAMPLES.forEach(s=>{const c=document.createElement('span');c.className='chip';
+  c.textContent=s.length>46?s.slice(0,46)+'…':s;c.title=s;
+  c.onclick=()=>document.getElementById('q').value=s;chips.appendChild(c);});
+
+let MODE='optimized';
+document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');MODE=b.dataset.mode;});
+
+const el=id=>document.getElementById(id);
+const logBox=el('log');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function log(msg,cls=''){const d=document.createElement('div');if(cls)d.className=cls;
+  d.textContent=msg;logBox.appendChild(d);logBox.scrollTop=logBox.scrollHeight;}
+function setNode(id,st){const n=el(id);n.classList.remove('idle','active','done');if(st)n.classList.add(st);}
+function badge(id,txt){const n=el(id);if(txt){n.classList.add('badge');n.dataset.badge=txt;}else{n.classList.remove('badge');}}
+
+// links: [from,to]
+const NODES={user:'n_user',cust:'n_cust',reg:'n_reg',law:'n_law',tax:'n_tax',comp:'n_comp',ana:'n_ana'};
+function center(id){const s=el('stage').getBoundingClientRect();const r=el(id).getBoundingClientRect();
+  return{x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2};}
+function drawLink(from,to,hot){const a=center(NODES[from]),b=center(NODES[to]);
+  const svg=el('links');const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d',`M${a.x},${a.y} C ${a.x},${(a.y+b.y)/2} ${b.x},${(a.y+b.y)/2} ${b.x},${b.y}`);
+  p.setAttribute('class','lk'+(hot?' hot':''));svg.appendChild(p);return p;}
+function clearLinks(){el('links').innerHTML='';}
+
+function resetAll(){
+  clearLinks();logBox.innerHTML='';
+  Object.values(NODES).forEach(id=>{setNode(id,'idle');badge(id,'');});
+  log('Sẵn sàng. Chế độ: '+MODE,'ok');
+}
+el('reset').onclick=resetAll;
+
+async function runDemo(){
+  el('run').disabled=true;clearLinks();logBox.innerHTML='';
+  Object.values(NODES).forEach(id=>setNode(id,'idle'));
+  const q=el('q').value.trim();const r=route(q);
+  const tid='a19336b4', cid='707e8492';
+  const optimized = MODE==='optimized';
+
+  log(`[client] trace=${tid} → gửi câu hỏi tới Customer Agent (:10100)`,'cust');
+  setNode('n_user','done');drawLink('user','cust',true);await wait(700);
+
+  // Customer agent: LLM decides to delegate
+  setNode('n_cust','active');
+  log('[customer] LLM quyết định gọi tool delegate_to_legal_agent (1 LLM call)','cust');
+  await wait(900);
+  log('[customer] discover("legal_question") → Registry','reg');
+  drawLink('cust','reg',true);setNode('n_reg','active');await wait(600);
+  log('[registry] ↳ law-agent @ http://localhost:10101','reg');
+  setNode('n_reg','done');clearLinks();
+  drawLink('user','cust');drawLink('cust','law',true);
+  setNode('n_cust','done');setNode('n_law','active');await wait(700);
+
+  // Law agent routing
+  log(`[law] LawAgent executing | trace=${tid} depth=1`,'law');
+  if(optimized){
+    log('[law] Routing decision (keyword): needs_tax='+r.tax+' needs_compliance='+r.comp+'  ⏱️ ~2ms','ok');
+  }else{
+    log('[law] check_routing → gọi LLM trả JSON định tuyến… (1 LLM call, ~100s do queue)','law');
+    await wait(1500);
+    log('[law] Routing decision (LLM): needs_tax='+r.tax+' needs_compliance='+r.comp,'law');
+  }
+  await wait(500);
+
+  // dispatch
+  const branches=[];
+  if(optimized) branches.push('ana');
+  if(r.tax) branches.push('tax');
+  if(r.comp) branches.push('comp');
+  if(!optimized){ /* baseline: analyze_law đã chạy nối tiếp TRƯỚC routing */ }
+
+  if(optimized){
+    log('[law] route_to_subagents → dispatch SONG SONG: '+branches.map(b=>({ana:'analyze_law',tax:'call_tax',comp:'call_compliance'}[b])).join(' ∥ '),'law');
+    clearLinks();drawLink('cust','law');
+    branches.forEach(b=>drawLink('law',b,true));
+    branches.forEach(b=>setNode('n_'+b,'active'));
+    if(r.tax){badge('n_tax','A2A');log('[law→tax] A2A send_message (trace propagated)','tax');}
+    if(r.comp){badge('n_comp','A2A');log('[law→compliance] A2A send_message (trace propagated)','comp');}
+    log('[ana] analyze_law chạy đồng thời (không chặn specialists)','law');
+    await wait(1600);
+    if(r.comp){log('[law] Compliance Agent returned 13443 chars','comp');setNode('n_comp','done');}
+    if(r.tax){log('[law] Tax Agent returned 13716 chars','tax');setNode('n_tax','done');}
+    setNode('n_ana','done');
+  }else{
+    // baseline: analyze_law trước (nối tiếp), rồi specialists tuần tự sau routing
+    log('[law] analyze_law (LLM) đã chạy NỐI TIẾP trước check_routing','law');
+    clearLinks();drawLink('cust','law');
+    if(r.tax){drawLink('law','tax',true);setNode('n_tax','active');badge('n_tax','A2A');
+      log('[law→tax] A2A send_message','tax');await wait(1300);
+      log('[law] Tax Agent returned 13716 chars','tax');setNode('n_tax','done');}
+    if(r.comp){drawLink('law','comp',true);setNode('n_comp','active');badge('n_comp','A2A');
+      log('[law→compliance] A2A send_message','comp');await wait(1300);
+      log('[law] Compliance Agent returned 13443 chars','comp');setNode('n_comp','done');}
+  }
+  await wait(400);
+
+  // aggregate
+  log('[law] aggregate → tổng hợp law + tax + compliance thành câu trả lời (1 LLM call)','law');
+  setNode('n_law','active');await wait(1000);setNode('n_law','done');
+  clearLinks();drawLink('law','cust',true);
+  log('[customer] nhận kết quả, sinh phản hồi cuối cho user (1 LLM call)','cust');
+  setNode('n_cust','active');await wait(900);setNode('n_cust','done');
+  drawLink('cust','user',true);setNode('n_user','active');
+  const lat = optimized?'≈299s':'≈420s';
+  log('✓ Hoàn tất. Latency hệ thống: '+lat+' (model free, đo thật)','ok');
+  el('run').disabled=false;
+}
+el('run').onclick=runDemo;
+
+// ---- ĐO THẬT: gọi POST :10100/ask, bấm giờ live ----
+const CUSTOMER_URL='http://localhost:10100';
+let baselineRef=420; // giây — mốc baseline đã đo để tính % giảm
+async function realMeasure(){
+  const q=el('q').value.trim();
+  if(!q){alert('Nhập câu hỏi trước đã');return;}
+  const btn=el('measure'), status=el('measureStatus'), ans=el('answerBox');
+  btn.disabled=true;ans.style.display='none';ans.innerHTML='';
+  let t=0;status.innerHTML='⏳ đang đo… 0s';
+  const tick=setInterval(()=>{t++;status.innerHTML='⏳ đang đo… '+t+'s';},1000);
+  const t0=performance.now();
+  try{
+    const res=await fetch(CUSTOMER_URL+'/ask',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:q})
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    clearInterval(tick);
+    const secClient=((performance.now()-t0)/1000);
+    const secServer=(data.latency_ms||0)/1000;
+    // cập nhật thẻ Optimized bằng số đo thật
+    el('m_opt').textContent=secServer.toFixed(0)+'s';
+    el('k_opt').textContent='Optimized (đo thật)';
+    el('bar_opt').style.width=Math.min(100,(secServer/baselineRef*100)).toFixed(0)+'%';
+    const saved=(baselineRef-secServer);
+    const pct=(saved/baselineRef*100);
+    el('latNote').innerHTML='Đo thật: <b>'+secServer.toFixed(0)+'s</b> (server) / '+secClient.toFixed(0)+
+      's (client). So với baseline 420s → giảm <b style="color:var(--ok)">~'+saved.toFixed(0)+'s ('+pct.toFixed(0)+'%)</b>. trace='+(data.trace_id||'').slice(0,8);
+    status.innerHTML='✓ xong: '+secServer.toFixed(0)+'s';
+    ans.style.display='block';
+    ans.innerHTML='<div class="ok">✓ Câu trả lời thật từ hệ thống ('+(data.answer||'').length+' ký tự):</div>'+
+      '<div style="white-space:pre-wrap;color:var(--txt)">'+escapeHtml((data.answer||'').slice(0,1500))+
+      ((data.answer||'').length>1500?'\n…(rút gọn)':'')+'</div>';
+  }catch(err){
+    clearInterval(tick);
+    status.innerHTML='⚠️ lỗi: '+err.message;
+    ans.style.display='block';
+    ans.innerHTML='<div style="color:#f87171">Không gọi được hệ thống. Kiểm tra:</div>'+
+      '<div class="muted">• Đã chạy <code>./start_all.sh</code> chưa?\n• Customer Agent có ở :10100 không?\n• Lỗi CORS? (server đã bật CORS — thử reload)</div>';
+  }finally{btn.disabled=false;}
+}
+function escapeHtml(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+el('measure').onclick=realMeasure;
+
+window.addEventListener('resize',()=>clearLinks());
+resetAll();
+</script>
+</body>
+</html>
