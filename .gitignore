@@ -3,3 +3,7 @@
 **cache**
 .claude
 **SOLUTION**
+.DS_Store
+# Day08 là project/repo GitHub riêng (github.com/tuyetnga09/Day08_RAG_pipeline_cohort2),
+# chỉ tình cờ nằm trong thư mục này — không gộp vào repo Day09.
+lab_assignment/
