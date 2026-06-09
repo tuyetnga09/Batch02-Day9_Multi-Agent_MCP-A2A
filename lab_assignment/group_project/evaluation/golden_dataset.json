@@ -1,0 +1,118 @@
+[
+  {
+    "question": "Hình phạt cho tội tàng trữ trái phép chất ma tuý theo pháp luật Việt Nam?",
+    "expected_output": "Theo Điều 249 Bộ luật Hình sự 2015, người nào tàng trữ trái phép chất ma túy mà không nhằm mục đích mua bán, vận chuyển, sản xuất trái phép chất ma túy thì bị phạt tù từ 01 năm đến 05 năm đối với Khoản 1. Các khung hình phạt tăng nặng khác có thể lên đến 5-10 năm (Khoản 2), 10-15 năm (Khoản 3), hoặc 15-20 năm tù hoặc tù chung thân (Khoản 4). Người phạm tội còn có thể bị phạt bổ sung như phạt tiền từ 5.000.000 đến 500.000.000 đồng, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định từ 01 năm đến 05 năm hoặc tịch thu một phần hoặc toàn bộ tài sản (Khoản 5).",
+    "expected_context": [
+      "Bộ luật Hình sự 2015",
+      "Điều 249. Tội tàng trữ trái phép chất ma túy",
+      "bị phạt tù từ 01 năm đến 05 năm",
+      "phạt tiền từ 5.000.000 đồng đến 500.000.000 đồng, cấm đảm nhiệm chức vụ"
+    ]
+  },
+  {
+    "question": "Những nghệ sĩ nào đã bị bắt vì liên quan tới ma tuý?",
+    "expected_output": "Theo các nguồn tin, các nghệ sĩ và nhân vật có tầm ảnh hưởng bị bắt giữ hoặc phát hiện liên quan đến ma túy bao gồm: ca sĩ Chi Dân, người mẫu kiêm diễn viên Andrea Aybar (Nguyễn Thị An), Nguyễn Đỗ Trúc Phương (influencer thiện nguyện), và ca sĩ Miu Lê (Lê Ánh Nhật).",
+    "expected_context": [
+      "Ca sĩ Chi Dân",
+      "Andrea Aybar",
+      "Nguyễn Đỗ Trúc Phương",
+      "ca sĩ Miu Lê"
+    ]
+  },
+  {
+    "question": "Quy trình cai nghiện bắt buộc theo Luật Phòng chống ma tuý 2021?",
+    "expected_output": "Theo Điều 30 của Luật Phòng chống ma túy, đối tượng cai nghiện bắt buộc là người từ đủ 18 tuổi trở lên. Người cai nghiện phải tuân thủ đầy đủ thời hạn và quy trình cai nghiện ma túy tại cơ sở cai nghiện công lập. Trường hợp không hoàn thành tại cơ sở thì phải tiếp tục cai nghiện tại gia đình, cộng đồng.",
+    "expected_context": [
+      "Điều 30. Cai nghiện ma túy bắt buộc tại cơ sở cai nghiện ma túy công lập đối với người từ đủ 18 tuổi trở lên",
+      "quy trình cai nghiện ma túy được quy định"
+    ]
+  },
+  {
+    "question": "Ca sĩ Chi Dân bị bắt vì hành vi gì và ở đâu?",
+    "expected_output": "Ca sĩ Chi Dân (quê Kiên Giang) bị lực lượng chức năng phát hiện phạm tội liên quan đến ma túy tại TP.HCM cùng thời điểm với Andrea Aybar và Nguyễn Đỗ Trúc Phương. Tài liệu cho biết Chi Dân đã nhận 2 gói nước vui hiệu Ferrari do xe ôm công nghệ giao đến.",
+    "expected_context": [
+      "Ca sĩ Chi Dân sau khi nhận 2 gói nước vui hiệu Ferrari",
+      "phát hiện phạm tội cùng thời điểm với Andrea Aybar"
+    ]
+  },
+  {
+    "question": "Hành vi vi phạm của người mẫu Andrea Aybar là gì?",
+    "expected_output": "Người mẫu kiêm diễn viên Andrea Aybar (tên tiếng Việt là Nguyễn Thị An, 29 tuổi) bị Công an TP.HCM bắt giữ về hai hành vi: 'Tàng trữ trái phép chất ma túy' và 'Tổ chức sử dụng trái phép chất ma túy'.",
+    "expected_context": [
+      "Andrea Aybar (29 tuổi, tên tiếng Việt là Nguyễn Thị An) bị công an bắt giữ về hai hành vi: tàng trữ trái phép chất ma túy và tổ chức sử dụng trái phép chất ma túy."
+    ]
+  },
+  {
+    "question": "Nguyễn Đỗ Trúc Phương bị bắt giữ với cáo buộc gì?",
+    "expected_output": "Nguyễn Đỗ Trúc Phương, một người nổi tiếng trên mạng xã hội với các hoạt động lập quỹ thiện nguyện, đã bị Công an TP.HCM bắt giữ với cáo buộc 'Tổ chức sử dụng trái phép chất ma túy'.",
+    "expected_context": [
+      "Nguyễn Đỗ Trúc Phương, một nhân vật có tầm ảnh hưởng trên mạng xã hội về các hoạt động thiện nguyện, cũng bị bắt giữ với cáo buộc tổ chức sử dụng trái phép chất ma túy."
+    ]
+  },
+  {
+    "question": "Ca sĩ Miu Lê bị công an Hải Phòng khởi tố vì tội gì?",
+    "expected_output": "Ca sĩ Miu Lê (Lê Ánh Nhật, 35 tuổi) bị Cơ quan CSĐT Công an thành phố Hải Phòng ra quyết định khởi tố và bắt tạm giam về hành vi 'Tổ chức sử dụng trái phép chất ma túy' vào ngày 16/5.",
+    "expected_context": [
+      "Cơ quan CSĐT Công an thành phố Hải Phòng đã ra quyết định khởi tố, lệnh bắt tạm giam đối với Lê Ánh Nhật (ca sĩ Miu Lê, 35 tuổi) về tội Tổ chức sử dụng trái phép chất ma túy."
+    ]
+  },
+  {
+    "question": "Ai chịu trách nhiệm quản lý tiền chất dùng làm nguyên liệu sản xuất thuốc thú y?",
+    "expected_output": "Theo Điều 1 của Nghị định 57/2022/NĐ-CP, Bộ Nông nghiệp và Phát triển nông thôn chịu trách nhiệm quản lý các tiền chất dùng làm nguyên liệu sản xuất thuốc thú y theo quy định.",
+    "expected_context": [
+      "Bộ Nông nghiệp và Phát triển nông thôn quản lý các tiền chất dùng làm nguyên liệu sản xuất thuốc thú y"
+    ]
+  },
+  {
+    "question": "Người dưới 18 tuổi đang cai nghiện bắt buộc mà phạm tội thì xử lý thế nào?",
+    "expected_output": "Theo Điều 32 Pháp lệnh 01/2022/UBTVQH15, nếu người từ đủ 14 tuổi đến dưới 18 tuổi đang chấp hành quyết định cai nghiện bắt buộc mà bị Tòa án phạt tù (không cho hưởng án treo) vì hành vi phạm tội trước hoặc trong thời gian cai nghiện, thì Tòa án sẽ xem xét quyết định tạm đình chỉ hoặc miễn chấp hành thời gian cai nghiện còn lại.",
+    "expected_context": [
+      "Tạm đình chỉ hoặc miễn chấp hành quyết định đưa vào cơ sở cai nghiện bắt buộc đối với người từ đủ 14 tuổi đến dưới 18 tuổi đang chấp hành quyết định cai nghiện bắt buộc phạm tội"
+    ]
+  },
+  {
+    "question": "Nhóm thanh thiếu niên mở tiệc ma túy trong villa nghỉ dưỡng ở đâu và bị bắt khi nào?",
+    "expected_output": "Công an TP Đà Nẵng đã bắt quả tang và quyết định tạm giữ hình sự một nhóm 8 thanh thiếu niên mở tiệc ma túy trong một villa nghỉ dưỡng vào ngày 15/5.",
+    "expected_context": [
+      "ngày 15/5, Công an TP Đà Nẵng cho biết vừa ra quyết định tạm giữ hình sự nhóm thanh thiếu niên để điều tra hành vi Tổ chức sử dụng trái phép chất ma túy",
+      "villa nghỉ dưỡng"
+    ]
+  },
+  {
+    "question": "Đối với hành vi tàng trữ ma túy dưới 0.1 gam Heroine của người chưa từng vi phạm thì pháp luật xử lý thế nào?",
+    "expected_output": "Theo Điều 249 Khoản 1, hành vi tàng trữ Heroine dưới 0.1 gam mà không nhằm mục đích mua bán, vận chuyển, sản xuất và người vi phạm chưa từng bị xử phạt hành chính hoặc kết án về các tội ma túy (chưa được xóa án tích) thì chưa đủ yếu tố cấu thành tội hình sự theo Khoản 1 (yêu cầu khối lượng từ 0,1 gam trở lên hoặc đã bị xử phạt/kết án trước đó). Trường hợp này sẽ bị xử phạt vi phạm hành chính.",
+    "expected_context": [
+      "Heroine, Cocaine, Methamphetamine, Amphetamine, MDMA hoặc XLR-11 có khối lượng từ 0,1 gam đến dưới 05 gam",
+      "Đã bị xử phạt vi phạm hành chính về hành vi quy định tại Điều này hoặc đã bị kết án về tội này"
+    ]
+  },
+  {
+    "question": "Khung hình phạt cao nhất của tội tàng trữ trái phép chất ma túy là gì?",
+    "expected_output": "Theo Điều 249 Khoản 4 Bộ luật Hình sự 2015, khung hình phạt cao nhất đối với tội tàng trữ trái phép chất ma túy là phạt tù từ 15 năm đến 20 năm hoặc tù chung thân.",
+    "expected_context": [
+      "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân"
+    ]
+  },
+  {
+    "question": "Tổ chức sử dụng trái phép chất ma túy tại bãi biển Cát Bà liên quan đến ai?",
+    "expected_output": "Vụ tổ chức sử dụng trái phép chất ma túy tại bãi biển Cát Bà (Hải Phòng) liên quan đến nhóm của ca sĩ Miu Lê, Đặng Huy Việt (người cung cấp ma túy), Vũ Khương An và vợ chồng Trần Đức Phong - Trần Minh Trang.",
+    "expected_context": [
+      "Từ 7/5, An mời bạn bè là ca sĩ Miu Lê, Vũ Khương An và vợ chồng Trần Đức Phong",
+      "Đặng Huy Việt (42 tuổi, trú phường Hoàng Mai, Hà Nội) về hành vi Mua bán trái phép chất ma túy"
+    ]
+  },
+  {
+    "question": "Trường hợp nào tàng trữ ma túy bị phạt tù từ 5 năm đến 10 năm?",
+    "expected_output": "Theo Điều 249 Khoản 2 Bộ luật Hình sự 2015, phạm tội thuộc một trong các trường hợp sau đây thì bị phạt tù từ 05 năm đến 10 năm: có tổ chức, phạm tội 02 lần trở lên, lợi dụng chức vụ quyền hạn, vận chuyển qua biên giới, tái phạm nguy hiểm, hoặc tàng trữ khối lượng ma túy lớn hơn quy định tại Khoản 1 (ví dụ Heroine từ 05 gam đến dưới 30 gam).",
+    "expected_context": [
+      "Phạm tội tàng trữ trái phép chất ma túy thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 05 năm đến 10 năm"
+    ]
+  },
+  {
+    "question": "Bộ luật Hình sự 2015 quy định thế nào về việc tàng trữ từ 02 chất ma túy trở lên?",
+    "expected_output": "Nếu tàng trữ từ 02 chất ma túy trở lên, tổng khối lượng hoặc thể tích của các chất đó được quy đổi tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm tương ứng của từng khung hình phạt để quyết định hình phạt (áp dụng tại các Khoản 1, 2, 3 và 4 của Điều 249).",
+    "expected_context": [
+      "Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm"
+    ]
+  }
+]

@@ -1,0 +1,60 @@
+# Khởi tố, bắt tạm giam ca sĩ Long Nhật, Sơn Ngọc Minh vì tổ chức sử dụng ma túy
+
+**Source:** https://baochinhphu.vn/khoi-to-bat-tam-giam-ca-si-long-nhat-son-ngoc-minh-vi-to-chuc-su-dung-ma-tuy-102260520125739676.htm
+**Crawled:** 2026-06-08T12:00:31.993273
+
+---
+
+chính phủ nước cộng hòa xã hội chủ nghĩa việt nam
+
+Chính trị Đối ngoại Tổ chức nhân sự Hội nhập
+
+Kinh tế Ngân hàng Chứng khoán Kinh doanh
+
+Xã hội Pháp luật Đời sống Y tế
+
+Khoa giáo Giáo dục Khoa học - Công nghệ
+
+Khởi tố, bắt tạm giam ca sĩ Long Nhật, Sơn Ngọc Minh vì tổ chức sử dụng ma túy
+
+(Chinhphu.vn) - Ngày 20/5, Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh (Phòng Cảnh sát điều tra tội phạm về ma túy) cho biết vừa triệt phá thành công đường dây tội phạm ma tuý quy mô lớn trên địa bàn.
+
+Ca sĩ Long Nhật tại cơ quan điều tra - Ảnh: Công an TPHCM
+
+Qua công tác điều tra vụ án “Mua bán trái phép chất ma túy, Tàng trữ trái phép chất ma túy và Tổ chức sử dụng trái phép chất ma túy” phát hiện trên địa bàn TPHCM trong quý I/2026, Phòng Cảnh sát điều tra tội phạm về ma túy Công an TPHCM phát hiện ngoài các đối tượng đã bị xử lý, còn nhiều đối tượng liên quan cần phải điều tra truy xét, mở rộng.
+
+Phòng Cảnh sát điều tra tội phạm về ma túy Công an Thành phố đã xác lập Chuyên án tập trung áp dụng đồng bộ, quyết liệt các biện pháp nghiệp vụ trinh sát và tố tụng hình sự nhằm đấu tranh, bóc gỡ toàn bộ đường dây tội phạm.
+
+Ca sĩ Sơn Ngọc Minh tại cơ quan điều tra - Ảnh: Công an TPHCM
+
+Ngay sau khi xác lập chuyên án, Phòng Cảnh sát điều tra tội phạm về ma túy đã khẩn trương huy động lực lượng, triển khai đồng bộ các biện pháp nghiệp vụ, tập trung đấu tranh mở rộng, truy xét sâu các mối quan hệ, đường dây, đối tượng liên quan; kiên trì khai thác, truy vết đến cùng từ các đối tượng sử dụng ma túy để làm rõ các mắt xích cung cấp, tổ chức sử dụng và tiêu thụ ma túy trên địa bàn.
+
+Kết quả khám phá bước đầu đã bắt giữ, xử lý 74 đối tượng; trong đó đã khởi tố, bắt tạm giam 71 bị can về các hành vi “Mua bán trái phép chất ma túy”, “Tàng trữ trái phép chất ma túy” và “Tổ chức sử dụng trái phép chất ma túy”; đồng thời phối hợp Công an phường xử lý hành chính 03 đối tượng theo quy định pháp luật.
+
+Đáng chú ý, trong số các đối tượng bị xử lý hình sự có một số trường hợp là người hoạt động trong lĩnh vực nghệ thuật, có ảnh hưởng nhất định trên mạng xã hội và đời sống văn hóa, gồm: Đinh Long Nhật (sinh năm 1967; HKTT: phường Phú Xuân, tỉnh Thừa Thiên Huế; chỗ ở: phường Tân Tạo, TPHCM; nghề nghiệp: ca sĩ, nghệ danh Long Nhật), Sơn Ngọc Minh (sinh năm 1990; HKTT: phường Ninh Kiều, TP. Cần Thơ; nghề nghiệp: ca sĩ, nghệ danh Sơn Ngọc Minh). Cả 2 đối tượng đều bị khởi tố, bắt tạm giam về tội “Tổ chức sử dụng trái phép chất ma túy”.
+
+Tham khảo thêmKhởi tố Lê Ánh Nhật (ca sĩ Miu Lê) về hành vi tổ chức sử dụng trái phép chất ma túy
+
+Tham khảo thêm‘Xã không ma túy’: Những nỗ lực âm thầm và cuộc đời tái sinh
+
+Tham khảo thêmLiên tiếp phát hiện vận chuyển trái phép xăng dầu, vũ khí, ma túy
+
+Tham khảo thêmHải quan liên tiếp triệt phá đường dây ma túy lớn
+
+Tham khảo thêmChính sách vay vốn đối với người sau cai nghiện ma túy
+
+© BÁO ĐIỆN TỬ CỦA CHÍNH PHỦ NƯỚC CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+
+Tổng Biên tập: Nguyễn Hồng Sâm
+
+Giấy phép số: 102/GP-BTTTT, cấp ngày 15/04/2024.
+
+Trụ sở: 16 Lê Hồng Phong - Ba Đình - Hà Nội;
+
+Điện thoại: Văn phòng: 080.43162;Fax: 080.48924;
+
+Email: thongtinchinhphu@chinhphu.vn.
+
+Bản quyền thuộc Báo Điện tử Chính phủ - Cổng Thông tin điện tử Chính phủ.
+
+Ghi rõ nguồn "Cổng Thông tin điện tử Chính phủ", "Báo Điện tử Chính phủ" hoặc "www.chinhphu.vn" khi phát hành lại thông tin từ các nguồn này.
